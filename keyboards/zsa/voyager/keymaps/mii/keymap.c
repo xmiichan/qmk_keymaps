@@ -23,47 +23,49 @@ enum custom_keycodes {
 #define KM_JIGG KM_MOUSE_JIGGLE
 #define OS_LTOG OS_LINUX_TOGGLE
 
-#define LOWER LT(SYM, KC_TAB)
-#define RAISE LT(NAV, KC_ENTER)
+#define MK_TAB LT(NAV, KC_TAB)
+#define MK_ENT LT(NAV, KC_ENTER)
 
 #define MK_A LCTL_T(KC_A)
 #define MK_S LALT_T(KC_S)
 #define MK_D LSFT_T(KC_D)
 #define MK_F LGUI_T(KC_F)
 #define MK_Z RALT_T(KC_Z)
+#define MK_X LT(SYM, KC_X)
 
 #define MK_SLSH RALT_T(KC_SLASH)
 #define MK_J RGUI_T(KC_J)
 #define MK_K RSFT_T(KC_K)
 #define MK_L LALT_T(KC_L)
 #define MK_SCLN RCTL_T(KC_SEMICOLON)
+#define MK_DOT LT(SYM, KC_DOT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_LR(
         KC_NO  , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,
         KC_BSLS, KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,
         QK_GESC, MK_A   , MK_S   , MK_D   , MK_F   , KC_G   ,
-        KC_LSFT, MK_Z   , KC_X   , KC_C   , KC_V   , KC_B   ,
-                                            KC_BSPC, LOWER  ,
+        KC_LSFT, MK_Z   , MK_X   , KC_C   , KC_V   , KC_B   ,
+                                            KC_BSPC, MK_TAB ,
 
 
-                 KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_EQL ,
-                 KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_MINS,
-                 KC_H   , MK_J   , MK_K   , MK_L   , MK_SCLN, KC_QUOT,
-                 KC_N   , KC_M   , KC_COMM, KC_DOT , MK_SLSH, KC_RSFT,
-        RAISE  , KC_SPC
+        KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_EQL ,
+        KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_MINS,
+        KC_H   , MK_J   , MK_K   , MK_L   , MK_SCLN, KC_QUOT,
+        KC_N   , KC_M   , KC_COMM, MK_DOT , MK_SLSH, KC_RSFT,
+        MK_ENT , KC_SPC
     ),
     [NAV] = LAYOUT_LR(
         QK_LLCK, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  ,
         _______, _______, _______, _______, OS_LTOG, KM_JIGG,
         KC_ESC , KC_LCTL, KC_LALT, KC_LSFT, KC_LGUI, _______,
         _______, KC_VOLD, KC_VOLU, KC_MUTE, _______, _______,
-                                                     _______, _______,
+                                            _______, _______,
 
-                 KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 ,
-                 KC_HOME, KC_PGDN, KC_PGUP, KC_END , _______, KC_F12 ,
-                 KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, OS_TAB , _______,
-                 _______, _______, _______, _______, _______, _______,
+        KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 ,
+        KC_HOME, KC_PGDN, KC_PGUP, KC_END , _______, KC_F12 ,
+        KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, OS_TAB , _______,
+        _______, _______, _______, _______, _______, _______,
         _______, _______
     ),
     [SYM] = LAYOUT_LR(
@@ -71,12 +73,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______,
         KC_GRV , KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC,
         _______, _______, _______, _______, _______, _______,
-                                                     _______, _______,
+                                            _______, _______,
 
-                 _______, _______, _______, _______, _______, _______,
-                 _______, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, _______,
-                 KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-                 _______, _______, KC_LT  , KC_GT  , KC_BSLS, _______,
+        _______, _______, _______, _______, _______, _______,
+        _______, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, _______,
+        KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
+        _______, _______, KC_LT  , KC_GT  , KC_BSLS, _______,
         _______, _______
     ),
 };
@@ -85,9 +87,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM left_bracket[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM right_bracket[] = {KC_I, KC_O, COMBO_END};
 const uint16_t PROGMEM left_paren[] = {KC_M, KC_COMMA, COMBO_END};
-const uint16_t PROGMEM right_paren[] = {KC_COMMA, KC_DOT, COMBO_END};
+const uint16_t PROGMEM right_paren[] = {KC_COMMA, MK_DOT, COMBO_END};
 const uint16_t PROGMEM backtick[] = {KC_N, KC_M, COMBO_END};
-const uint16_t PROGMEM backslash[] = {KC_DOT, MK_SLSH, COMBO_END};
+const uint16_t PROGMEM backslash[] = {MK_DOT, MK_SLSH, COMBO_END};
 combo_t key_combos[] = {
     COMBO(left_bracket, KC_LEFT_BRACKET),
     COMBO(right_bracket, KC_RIGHT_BRACKET),
@@ -103,8 +105,8 @@ combo_t key_combos[] = {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         // trigger hold action immediately when another key is pressed
-        case RAISE:
-        case LOWER:
+        case MK_ENT:
+        case MK_TAB:
             return true;
         default:
             return false;
