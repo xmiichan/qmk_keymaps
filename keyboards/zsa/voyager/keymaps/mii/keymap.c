@@ -46,13 +46,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_BSLS, KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,
         QK_GESC, MK_A   , MK_S   , MK_D   , MK_F   , KC_G   ,
         KC_LSFT, MK_Z   , MK_X   , KC_C   , KC_V   , KC_B   ,
-                                            KC_BSPC, MK_TAB ,
+                                                     KC_BSPC, MK_TAB ,
 
 
-        KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_EQL ,
-        KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_MINS,
-        KC_H   , MK_J   , MK_K   , MK_L   , MK_SCLN, KC_QUOT,
-        KC_N   , KC_M   , KC_COMM, MK_DOT , MK_SLSH, KC_RSFT,
+                 KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_EQL ,
+                 KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_MINS,
+                 KC_H   , MK_J   , MK_K   , MK_L   , MK_SCLN, KC_QUOT,
+                 KC_N   , KC_M   , KC_COMM, MK_DOT , MK_SLSH, KC_RSFT,
         MK_ENT , KC_SPC
     ),
     [NAV] = LAYOUT_LR(
@@ -60,25 +60,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, OS_LTOG, KM_JIGG,
         KC_ESC , KC_LCTL, KC_LALT, KC_LSFT, KC_LGUI, _______,
         _______, KC_VOLD, KC_VOLU, KC_MUTE, _______, _______,
-                                            _______, _______,
+                                                     _______, _______,
 
-        KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 ,
-        KC_HOME, KC_PGDN, KC_PGUP, KC_END , _______, KC_F12 ,
-        KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, OS_TAB , _______,
-        _______, _______, _______, _______, _______, _______,
-        _______, _______
+                 KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 ,
+                 KC_HOME, KC_PGDN, KC_PGUP, KC_END , _______, KC_F12 ,
+                 KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, OS_TAB , _______,
+                 _______, _______, _______, _______, _______, _______,
+        _______, G(KC_SPC)
     ),
     [SYM] = LAYOUT_LR(
         QK_LLCK, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,
         KC_GRV , KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC,
         _______, _______, _______, _______, _______, _______,
-                                            _______, _______,
+                                                     _______, _______,
 
-        _______, _______, _______, _______, _______, _______,
-        _______, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, _______,
-        KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-        _______, _______, KC_LT  , KC_GT  , KC_BSLS, _______,
+                 _______, _______, _______, _______, _______, _______,
+                 _______, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, _______,
+                 KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
+                 _______, _______, KC_LT  , KC_GT  , KC_BSLS, _______,
         _______, _______
     ),
 };
