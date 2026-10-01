@@ -2,6 +2,7 @@
 //
 // Use at your own risk. :)
 
+#include "keycodes.h"
 #include QMK_KEYBOARD_H
 #include "layout.h"
 #include "catppuccin.h"
@@ -66,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                  KC_HOME, KC_PGDN, KC_PGUP, KC_END , _______, KC_F12 ,
                  KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, OS_TAB , _______,
                  _______, _______, _______, _______, _______, _______,
-        _______, G(KC_SPC)
+        _______, _______
     ),
     [SYM] = LAYOUT_LR(
         QK_LLCK, _______, _______, _______, _______, _______,
@@ -86,10 +87,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef COMBO_ENABLE
 const uint16_t PROGMEM left_bracket[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM right_bracket[] = {KC_I, KC_O, COMBO_END};
-const uint16_t PROGMEM left_paren[] = {KC_M, KC_COMMA, COMBO_END};
-const uint16_t PROGMEM right_paren[] = {KC_COMMA, MK_DOT, COMBO_END};
-const uint16_t PROGMEM backtick[] = {KC_N, KC_M, COMBO_END};
-const uint16_t PROGMEM backslash[] = {MK_DOT, MK_SLSH, COMBO_END};
+const uint16_t PROGMEM left_paren[] = {MK_J, MK_K, COMBO_END};
+const uint16_t PROGMEM right_paren[] = {MK_K, MK_L, COMBO_END};
+const uint16_t PROGMEM backtick[] = {KC_M, KC_COMMA, COMBO_END};
+const uint16_t PROGMEM backslash[] = {KC_COMMA, MK_DOT, COMBO_END};
 combo_t key_combos[] = {
     COMBO(left_bracket, KC_LEFT_BRACKET),
     COMBO(right_bracket, KC_RIGHT_BRACKET),
@@ -98,6 +99,23 @@ combo_t key_combos[] = {
     COMBO(backslash, KC_BACKSLASH),
     COMBO(backtick, KC_GRAVE),
 };
+#endif
+
+#ifdef COMBO_MUST_TAP_PER_COMBO
+bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
+    uint16_t key;
+    uint8_t i = 0;
+
+    // check if all the keys in the combo are mod-taps or layer-taps. if so,
+    // return the combined hold action, otherwise execute combo
+    while ((key = pgm_read_word(&combo->keys[i])) != COMBO_END) {
+        if (!IS_QK_MOD_TAP(key) && !IS_QK_LAYER_TAP(key)) {
+            return false;
+        }
+        i++;
+    }
+    return true;
+}
 #endif
 
 
@@ -219,6 +237,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
     }
     return true;
+}
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!record->event.pressed) return;
+
+    static bool rsft_tabbed = false;
+    static uint16_t rsft_deadline = 0;
+    uint16_t now = record->event.time;
+
+    if (keycode == KC_RIGHT_SHIFT) {
+        if (rsft_tabbed && !timer_expired(now, rsft_deadline)) {
+            caps_word_on();
+        }
+        rsft_tabbed  = true;
+        rsft_deadline = now + GET_TAPPING_TERM(keycode, record);
+    } else {
+        rsft_tabbed = false;
+    }
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
