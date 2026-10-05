@@ -2,8 +2,9 @@
 //
 // Use at your own risk. :)
 
-#include "keycodes.h"
 #include QMK_KEYBOARD_H
+#include "keycodes.h"
+#include "quantum_keycodes.h"
 #include "layout.h"
 #include "catppuccin.h"
 
@@ -24,36 +25,32 @@ enum custom_keycodes {
 #define KM_JIGG KM_MOUSE_JIGGLE
 #define OS_LTOG OS_LINUX_TOGGLE
 
-#define MK_TAB LT(NAV, KC_TAB)
+#define MK_TAB ALGR_T(KC_TAB)
 #define MK_ENT LT(NAV, KC_ENTER)
 
 #define MK_A LCTL_T(KC_A)
-#define MK_S LALT_T(KC_S)
+#define MK_S ALT_T(KC_S)
 #define MK_D LSFT_T(KC_D)
 #define MK_F LGUI_T(KC_F)
-#define MK_Z RALT_T(KC_Z)
-#define MK_X LT(SYM, KC_X)
 
-#define MK_SLSH RALT_T(KC_SLASH)
 #define MK_J RGUI_T(KC_J)
 #define MK_K RSFT_T(KC_K)
-#define MK_L LALT_T(KC_L)
+#define MK_L ALT_T(KC_L)
 #define MK_SCLN RCTL_T(KC_SEMICOLON)
-#define MK_DOT LT(SYM, KC_DOT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_LR(
         KC_NO  , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,
         KC_BSLS, KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,
         QK_GESC, MK_A   , MK_S   , MK_D   , MK_F   , KC_G   ,
-        KC_LSFT, MK_Z   , MK_X   , KC_C   , KC_V   , KC_B   ,
+        KC_LSFT, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   ,
                                                      KC_BSPC, MK_TAB ,
 
 
                  KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_EQL ,
                  KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_MINS,
                  KC_H   , MK_J   , MK_K   , MK_L   , MK_SCLN, KC_QUOT,
-                 KC_N   , KC_M   , KC_COMM, MK_DOT , MK_SLSH, KC_RSFT,
+                 KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,
         MK_ENT , KC_SPC
     ),
     [NAV] = LAYOUT_LR(
@@ -64,9 +61,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                      _______, _______,
 
                  KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 ,
-                 KC_HOME, KC_PGDN, KC_PGUP, KC_END , _______, KC_F12 ,
+                 KC_HOME, KC_PGUP, _______, _______, KC_DEL , KC_F12 ,
                  KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, OS_TAB , _______,
-                 _______, _______, _______, _______, _______, _______,
+                 KC_END , KC_PGDN, _______, _______, _______, _______,
         _______, _______
     ),
     [SYM] = LAYOUT_LR(
@@ -79,25 +76,52 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                  _______, _______, _______, _______, _______, _______,
                  _______, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, _______,
                  KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-                 _______, _______, KC_LT  , KC_GT  , KC_BSLS, _______,
+                 _______, KC_PIPE, KC_LT  , KC_GT  , KC_BSLS, _______,
         _______, _______
     ),
 };
 
 #ifdef COMBO_ENABLE
+// first row, left
+const uint16_t PROGMEM hash[] = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM dollar[] = {KC_E, KC_R, COMBO_END};
+// right
 const uint16_t PROGMEM left_bracket[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM right_bracket[] = {KC_I, KC_O, COMBO_END};
+
+// second row, left
+const uint16_t PROGMEM exclaim[] = {MK_S, MK_D, COMBO_END};
+const uint16_t PROGMEM asterisk[] = {MK_D, MK_F, COMBO_END};
+const uint16_t PROGMEM at[] = {MK_F, KC_G, COMBO_END};
+// right
+const uint16_t PROGMEM ampersand[] = {KC_H, MK_J, COMBO_END};
 const uint16_t PROGMEM left_paren[] = {MK_J, MK_K, COMBO_END};
 const uint16_t PROGMEM right_paren[] = {MK_K, MK_L, COMBO_END};
+
+// third row, left
+const uint16_t PROGMEM percent[] = {KC_X, KC_C, COMBO_END};
+const uint16_t PROGMEM circumflex[] = {KC_C, KC_V, COMBO_END};
+// right
+const uint16_t PROGMEM pipe[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM backtick[] = {KC_M, KC_COMMA, COMBO_END};
-const uint16_t PROGMEM backslash[] = {KC_COMMA, MK_DOT, COMBO_END};
+const uint16_t PROGMEM backslash[] = {KC_COMMA, KC_DOT, COMBO_END};
+
 combo_t key_combos[] = {
+    COMBO(hash, KC_HASH),
+    COMBO(dollar, KC_DOLLAR),
     COMBO(left_bracket, KC_LEFT_BRACKET),
     COMBO(right_bracket, KC_RIGHT_BRACKET),
+    COMBO(exclaim, KC_EXCLAIM),
+    COMBO(asterisk, KC_ASTERISK),
+    COMBO(at, KC_AT),
+    COMBO(ampersand, KC_AMPERSAND),
     COMBO(left_paren, KC_LEFT_PAREN),
     COMBO(right_paren, KC_RIGHT_PAREN),
-    COMBO(backslash, KC_BACKSLASH),
+    COMBO(percent, KC_PERCENT),
+    COMBO(circumflex, KC_CIRCUMFLEX),
+    COMBO(pipe, KC_PIPE),
     COMBO(backtick, KC_GRAVE),
+    COMBO(backslash, KC_BACKSLASH),
 };
 #endif
 
