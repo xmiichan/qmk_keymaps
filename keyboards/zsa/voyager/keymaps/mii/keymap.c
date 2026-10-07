@@ -3,10 +3,14 @@
 // Use at your own risk. :)
 
 #include QMK_KEYBOARD_H
-#include "keycodes.h"
-#include "quantum_keycodes.h"
-#include "layout.h"
+#include "action.h"
+#include "action_util.h"
+#include "caps_word.h"
 #include "catppuccin.h"
+#include "host.h"
+#include "keycodes.h"
+#include "layout.h"
+#include "quantum_keycodes.h"
 
 // layers
 enum layer {
@@ -252,6 +256,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
+        // turn caps lock off with shift
+        case KC_LEFT_SHIFT:
+        case KC_RIGHT_SHIFT:
+            if (record->event.pressed && host_keyboard_led_state().caps_lock) {
+                tap_code(KC_CAPS_LOCK);
+            }
+            break;
+
         // shift + caps word = caps lock
         case QK_CAPS_WORD_TOGGLE:
             if (record->event.pressed && get_mods() & MOD_MASK_SHIFT) {
@@ -266,15 +278,38 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) return;
 
+    // double-tap shift for caps word, hold opposite shift at the same time for
+    // caps lock
     static bool rsft_tabbed = false;
+    static bool lsft_tabbed = false;
     static uint16_t rsft_deadline = 0;
+    static uint16_t lsft_deadline = 0;
     uint16_t now = record->event.time;
+    uint8_t mods = get_mods();
+
+    if (keycode == KC_LEFT_SHIFT) {
+        if (lsft_tabbed && !timer_expired(now, lsft_deadline)) {
+            if (mods & MOD_BIT(KC_RIGHT_SHIFT)) {
+                tap_code(KC_CAPS_LOCK);
+            } else {
+                caps_word_on();
+            }
+        }
+        lsft_tabbed = !is_caps_word_on();
+        lsft_deadline = now + GET_TAPPING_TERM(keycode, record);
+    } else {
+        lsft_tabbed = false;
+    }
 
     if (keycode == KC_RIGHT_SHIFT) {
         if (rsft_tabbed && !timer_expired(now, rsft_deadline)) {
-            caps_word_on();
+            if (mods & MOD_BIT(KC_LEFT_SHIFT)) {
+                tap_code(KC_CAPS_LOCK);
+            } else {
+                caps_word_on();
+            }
         }
-        rsft_tabbed  = true;
+        rsft_tabbed = !is_caps_word_on();
         rsft_deadline = now + GET_TAPPING_TERM(keycode, record);
     } else {
         rsft_tabbed = false;
