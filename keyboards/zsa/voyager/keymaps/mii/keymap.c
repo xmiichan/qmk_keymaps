@@ -361,21 +361,11 @@ bool rgb_matrix_indicators_user(void) {
         for (int i = 0; i < len; ++i) {
             rgb_matrix_set_color(arrow_keys[i], CAT_PEACH);
         }
-        break;
-    }
-    case SYM: {
-        int sym_keys[] = {
-            0,
-            7, 8, 9, 10, 11,
-            13, 14, 15, 16, 17,
-            19, 20, 21, 22, 23,
-            32, 33, 34, 35, 36,
-            38, 39, 40, 41, 42,
-            44, 45, 46, 47, 48
-        };
-        len = sizeof(sym_keys) / sizeof(sym_keys[0]);
+
+        int mod_keys[] = {13, 14, 15, 16};
+        len = sizeof(mod_keys) / sizeof(mod_keys[0]);
         for (int i = 0; i < len; ++i) {
-            rgb_matrix_set_color(sym_keys[i], CAT_SKY);
+            rgb_matrix_set_color(mod_keys[i], CAT_PINK);
         }
         break;
     }
