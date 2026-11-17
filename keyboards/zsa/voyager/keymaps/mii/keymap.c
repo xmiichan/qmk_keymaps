@@ -29,7 +29,7 @@ enum custom_keycodes {
 #define KM_JIGG KM_MOUSE_JIGGLE
 #define OS_LTOG OS_LINUX_TOGGLE
 
-#define MK_TAB ALGR_T(KC_TAB)
+#define MK_TAB LT(SYM, KC_TAB)
 #define MK_ENT LT(NAV, KC_ENTER)
 
 #define MK_A LCTL_T(KC_A)
@@ -42,19 +42,22 @@ enum custom_keycodes {
 #define MK_L ALT_T(KC_L)
 #define MK_SCLN RCTL_T(KC_SEMICOLON)
 
+#define MK_Z ALGR_T(KC_Z)
+#define MK_SLSH ALGR_T(KC_SLASH)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_LR(
         KC_NO  , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,
         KC_BSLS, KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,
         QK_GESC, MK_A   , MK_S   , MK_D   , MK_F   , KC_G   ,
-        KC_LSFT, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   ,
+        KC_LSFT, MK_Z   , KC_X   , KC_C   , KC_V   , KC_B   ,
                                                      KC_BSPC, MK_TAB ,
 
 
                  KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_EQL ,
                  KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_MINS,
                  KC_H   , MK_J   , MK_K   , MK_L   , MK_SCLN, KC_QUOT,
-                 KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,
+                 KC_N   , KC_M   , KC_COMM, KC_DOT , MK_SLSH, KC_RSFT,
         MK_ENT , KC_SPC
     ),
     [NAV] = LAYOUT_LR(
@@ -366,6 +369,22 @@ bool rgb_matrix_indicators_user(void) {
         len = sizeof(mod_keys) / sizeof(mod_keys[0]);
         for (int i = 0; i < len; ++i) {
             rgb_matrix_set_color(mod_keys[i], CAT_PINK);
+        }
+        break;
+    }
+    case SYM: {
+        int sym_keys[] = {
+            0,
+            7, 8, 9, 10, 11,
+            13, 14, 15, 16, 17,
+            19, 20, 21, 22, 23,
+            32, 33, 34, 35, 36,
+            38, 39, 40, 41, 42,
+            44, 45, 46, 47, 48
+        };
+        len = sizeof(sym_keys) / sizeof(sym_keys[0]);
+        for (int i = 0; i < len; ++i) {
+            rgb_matrix_set_color(sym_keys[i], CAT_PINK);
         }
         break;
     }
