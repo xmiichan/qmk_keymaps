@@ -17,6 +17,7 @@ enum layer {
     BASE,
     NAV,
     SYM,
+    MOUSE,
 };
 
 // custom keycodes
@@ -31,6 +32,7 @@ enum custom_keycodes {
 
 #define MK_TAB LT(SYM, KC_TAB)
 #define MK_ENT LT(NAV, KC_ENTER)
+#define MK_BSPC LT(MOUSE, KC_BACKSPACE)
 
 #define MK_A LCTL_T(KC_A)
 #define MK_S ALT_T(KC_S)
@@ -51,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_BSLS, KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,
         QK_GESC, MK_A   , MK_S   , MK_D   , MK_F   , KC_G   ,
         KC_LSFT, MK_Z   , KC_X   , KC_C   , KC_V   , KC_B   ,
-                                                     KC_BSPC, MK_TAB ,
+                                                     MK_BSPC, MK_TAB ,
 
 
                  KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_EQL ,
@@ -84,6 +86,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                  _______, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, _______,
                  KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
                  _______, KC_PIPE, KC_LT  , KC_GT  , KC_BSLS, _______,
+        _______, _______
+    ),
+    [MOUSE] = LAYOUT_LR(
+        QK_LLCK, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,
+                                                     _______, _______,
+
+                 _______, _______, _______, _______, _______, _______,
+                 _______, MS_WHLL, MS_WHLU, MS_WHLR, _______, _______,
+                 MS_LEFT, MS_DOWN, MS_UP  , MS_RGHT, _______, _______,
+                 _______, MS_BTN1, MS_WHLD, MS_BTN2, MS_BTN3, _______,
         _______, _______
     ),
 };
